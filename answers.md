@@ -111,8 +111,9 @@ db.students.aggregate([
 ```bash
 [
   {
-    _id: ObjectId('68108246be3ee6fc5dd87b40'),
+    _id: ObjectId('68108241be3ee6fc5dd86f40'),
     first_name: 'Nikos',
+    home_city: 'Katerini',
     avg_grade: 10
   }
 ]
