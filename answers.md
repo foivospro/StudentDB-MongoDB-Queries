@@ -110,7 +110,9 @@ db.students.aggregate([
 [ { _id: ObjectId('68108245be3ee6fc5dd87942'), avg_grade: 10 } ]
 ```
 
-
+```bash
+{ _id: ObjectId('68108245be3ee6fc5dd87942'), first_name: 'Clio' }
+```
 ## 5. Student with largest number of grade 10's
 
 
