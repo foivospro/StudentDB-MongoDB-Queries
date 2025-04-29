@@ -97,6 +97,7 @@ db.students.aggregate([
   { $group: {
       _id: "$_id",
       first_name: { $first: "$first_name" },
+      home_city: { $first: "$home_city" },
       avg_grade: { $avg: "$courses.grade" }
     }
   },
@@ -105,13 +106,140 @@ db.students.aggregate([
 ])
 ```
 
-**Answer**
+**Answer with limit 1**
 
 ```bash
 [
   {
     _id: ObjectId('68108246be3ee6fc5dd87b40'),
     first_name: 'Nikos',
+    avg_grade: 10
+  }
+]
+```
+
+**Answer without limit**
+
+```bash
+[
+  {
+    _id: ObjectId('68108241be3ee6fc5dd86f40'),
+    first_name: 'Nikos',
+    home_city: 'Katerini',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108244be3ee6fc5dd8770d'),
+    first_name: 'Thanos',
+    home_city: 'Agrinio',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108247be3ee6fc5dd87d9b'),
+    first_name: 'Giannis',
+    home_city: 'Kalamata',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108243be3ee6fc5dd8735f'),
+    first_name: 'Eleni',
+    home_city: 'Halkida',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108244be3ee6fc5dd87566'),
+    first_name: 'Kostas',
+    home_city: 'Arta',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108244be3ee6fc5dd87701'),
+    first_name: 'Maria',
+    home_city: 'Preveza',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('6810823fbe3ee6fc5dd8687b'),
+    first_name: 'Alexandra',
+    home_city: 'Mytilini',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108245be3ee6fc5dd878db'),
+    first_name: 'Nikos',
+    home_city: 'Chania',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108244be3ee6fc5dd87473'),
+    first_name: 'Giorgos',
+    home_city: 'Larissa',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('6810823ebe3ee6fc5dd8644e'),
+    first_name: 'Danae',
+    home_city: 'Mytilini',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('6810824abe3ee6fc5dd88678'),
+    first_name: 'Thanos',
+    home_city: 'Agrinio',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('6810823dbe3ee6fc5dd86316'),
+    first_name: 'Georgia',
+    home_city: 'Kalamata',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('6810823ebe3ee6fc5dd865ce'),
+    first_name: 'Danae',
+    home_city: 'Arta',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108247be3ee6fc5dd87d89'),
+    first_name: 'Georgia',
+    home_city: 'Athina',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108244be3ee6fc5dd875ec'),
+    first_name: 'Sokratis',
+    home_city: 'Patra',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('6810823dbe3ee6fc5dd861fa'),
+    first_name: 'Anna',
+    home_city: 'Chania',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108249be3ee6fc5dd884e0'),
+    first_name: 'Anna',
+    home_city: 'Mytilini',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108243be3ee6fc5dd8738d'),
+    first_name: 'Iris',
+    home_city: 'Preveza',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108246be3ee6fc5dd87cda'),
+    first_name: 'Vangelis',
+    home_city: 'Thyra',
+    avg_grade: 10
+  },
+  {
+    _id: ObjectId('68108246be3ee6fc5dd87b7d'),
+    first_name: 'Vangelis',
+    home_city: 'Athina',
     avg_grade: 10
   }
 ]
