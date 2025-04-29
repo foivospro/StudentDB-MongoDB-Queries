@@ -96,6 +96,7 @@ db.students.aggregate([
   { $match: { "courses.course_status": "Complete" } },
   { $group: {
       _id: "$_id",
+      first_name: { $first: "$first_name" },
       avg_grade: { $avg: "$courses.grade" }
     }
   },
@@ -107,12 +108,15 @@ db.students.aggregate([
 **Answer**
 
 ```bash
-[ { _id: ObjectId('68108245be3ee6fc5dd87942'), avg_grade: 10 } ]
+[
+  {
+    _id: ObjectId('68108246be3ee6fc5dd87b40'),
+    first_name: 'Nikos',
+    avg_grade: 10
+  }
+]
 ```
 
-```bash
-{ _id: ObjectId('68108245be3ee6fc5dd87942'), first_name: 'Clio' }
-```
 ## 5. Student with largest number of grade 10's
 
 
