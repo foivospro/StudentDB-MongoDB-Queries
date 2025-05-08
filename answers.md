@@ -343,14 +343,13 @@ db.students.aggregate([
 db.students.aggregate([
 
 	{ $unwind: "$courses" }, # flatten the courses outside the arrays
-	
+
 	{ $match: {"courses.course_status": "Complete"} }, # filter by complete status
 
     # group by course type (first letter of course_code) and count the occurancies
 	{ $group: { _id: { $substr: ["$courses.course_code", 0, 1] }, count: { $sum: 1 } } }
 
 ])
-
 ```
 
 **Answer**
@@ -367,15 +366,64 @@ db.students.aggregate([
 ```
 ## 9. Add "hobbyist" field based on hobby count
 
+### 1. Add field only on result, without modifying the saved documents
+
 **Query**
 ```bash
+db.students.aggregate([{$addFields: {hobbyist: {$cond: [{$gte: [{$size: "$hobbies"}, 3]}, true, false] }}}])
+```
 
+**Answer (Random Document)**
+
+```bash
+[
+  {
+    _id: ObjectId('681c8beaa5a01c0ade6c72e0'),
+    home_city: 'Larissa',
+    first_name: 'Eleni',
+    hobbies: [ 'piano', 'hiking', 'board games' ],
+    favourite_os: 'linux',
+    laptop_cost: 1480,
+    courses: [
+      {
+        course_code: 'S101',
+        course_title: 'Fundamentals of Probability',
+        course_status: 'In Progress'
+      },
+      {
+        course_code: 'M201',
+        course_title: 'Natural Language Porcessing',
+        course_status: 'In Progress'
+      },
+      {
+        course_code: 'M102',
+        course_title: 'Data Mining',
+        course_status: 'In Progress'
+      }
+    ],
+    hobbyist: true
+  },
+  # rest of the documents...
+]
+```
+
+### 2. Modify the documents on disc
+
+**Query**
+```bash
+db.students.updateMany({}, [{$set: {hobbyist: {$cond: [{$gte: [{$size: "$hobbies"}, 3]}, true, false]}}}])
 ```
 
 **Answer**
 
 ```bash
-
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 10000,
+  modifiedCount: 10000,
+  upsertedCount: 0
+}
 ```
 ## 10. Add field with number of completed classes
 
