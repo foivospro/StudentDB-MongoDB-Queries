@@ -427,24 +427,162 @@ db.students.updateMany({}, [{$set: {hobbyist: {$cond: [{$gte: [{$size: "$hobbies
 ```
 ## 10. Add field with number of completed classes
 
+### 1. Add field only on result, without modifying the saved documents
+
 **Query**
 ```bash
+db.students.aggregate([
+  {
+    $addFields: {
+      completedCourses: {
+        $size: {
+          $filter: {
+            input: "$courses", 
+            as: "course", 
+            cond: {$eq: ["$$course.course_status", "Complete"]}
+          }
+        }
+      }
+    }
+  }
+])
+```
 
+**Answer (Random Document)**
+
+```bash
+[
+  {
+    _id: ObjectId('681c9467ff3ac55dcc6c4be3'),
+    home_city: 'Mytilini',
+    first_name: 'Myrto',
+    hobbies: [ 'skydiving', 'gardening' ],
+    favourite_os: 'windows',
+    laptop_cost: 1558,
+    courses: [
+      {
+        course_code: 'P201',
+        course_title: 'Graph Algorithms',
+        course_status: 'Complete',
+        grade: 8
+      },
+      {
+        course_code: 'P103',
+        course_title: 'Node.js in Action',
+        course_status: 'Complete',
+        grade: 7
+      },
+      {
+        course_code: 'P101',
+        course_title: 'Algorithms and Data Structures',
+        course_status: 'In Progress'
+      },
+      {
+        course_code: 'V102',
+        course_title: 'Tableau for Data Scientists',
+        course_status: 'Complete',
+        grade: 7
+      },
+      {
+        course_code: 'P102',
+        course_title: 'Introduction to R',
+        course_status: 'Complete',
+        grade: 9
+      }
+    ],
+    completedCourses: 4
+  },
+  # rest of the documents...
+]
+
+```
+
+### 2. Modify the documents on disc
+
+**Query**
+```bash
+db.students.updateMany({}, 
+  [{
+    $set: {
+      completedCourses: {
+        $size: {
+          $filter: {
+            input: "$courses",
+            as: "course",
+            cond: {$eq: ["$$course.course_status", "Complete"]}
+          }
+        }
+      }
+    }
+  }]
+)
 ```
 
 **Answer**
 
 ```bash
-
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 10000,
+  modifiedCount: 10000,
+  upsertedCount: 0
+}
 ```
 ##  11. Transform documents to include GPA and class counts
 **Query**
 ```bash
-
+db.students.aggregate([{
+  $project: {
+    first_name: 1, 
+    classesInProgress: { # count the classes currently in progress
+      $size: {
+        $filter: {
+          input:"$courses",
+          as: "course",
+          cond: {$eq: ["$$course.course_status", "In Progress"]}
+        }
+      }
+    },
+    droppedClasses: { # count the dropped classes
+      $size: {
+        $filter: {
+          input: "$courses",
+          as: "course",
+          cond: {$eq: ["$$course.course_status", "Dropped"]}
+        }
+      }
+    },
+    GPA: { # calculate the GPA
+      $avg: {
+        $map: {
+          input: {
+            $filter: {
+              input: "$courses",
+              as: "course",
+              cond: {$eq: ["$$course.course_status", "Complete"]}
+            }
+          },
+          as: "course",
+          in: "$$course.grade"
+        }
+      }
+    }
+  }
+}])
 ```
 
-**Answer**
+**Answer (Random Document)**
 
 ```bash
-
+[
+  {
+    _id: ObjectId('681c9467ff3ac55dcc6c4bd0'),
+    first_name: 'Pavlos',
+    classesInProgress: 2,
+    droppedClasses: 0,
+    GPA: 8.75
+  },
+  # rest of the documents...
+]
 ```
