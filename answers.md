@@ -340,12 +340,30 @@ db.students.aggregate([
 **Query**
 ```bash
 
+db.students.aggregate([
+
+	{ $unwind: "$courses" }, # flatten the courses outside the arrays
+	
+	{ $match: {"courses.course_status": "Complete"} }, # filter by complete status
+
+    # group by course type (first letter of course_code) and count the occurancies
+	{ $group: { _id: { $substr: ["$courses.course_code", 0, 1] }, count: { $sum: 1 } } }
+
+])
+
 ```
 
 **Answer**
 
 ```bash
-
+[
+  { _id: 'M', count: 4590 },
+  { _id: 'D', count: 3405 },
+  { _id: 'P', count: 6774 },
+  { _id: 'S', count: 4426 },
+  { _id: 'V', count: 2138 },
+  { _id: 'B', count: 1100 }
+]
 ```
 ## 9. Add "hobbyist" field based on hobby count
 
