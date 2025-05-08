@@ -370,7 +370,13 @@ db.students.aggregate([
 
 **Query**
 ```bash
-db.students.aggregate([{$addFields: {hobbyist: {$cond: [{$gte: [{$size: "$hobbies"}, 3]}, true, false] }}}])
+db.students.aggregate([{
+  $addFields: {
+    hobbyist: {
+      $cond: [{$gte: [{$size: "$hobbies"}, 3]}, true, false]
+    }
+  }
+}])
 ```
 
 **Answer (Random Document)**
@@ -411,7 +417,15 @@ db.students.aggregate([{$addFields: {hobbyist: {$cond: [{$gte: [{$size: "$hobbie
 
 **Query**
 ```bash
-db.students.updateMany({}, [{$set: {hobbyist: {$cond: [{$gte: [{$size: "$hobbies"}, 3]}, true, false]}}}])
+db.students.updateMany({},
+  [{
+    $set: {
+      hobbyist: {
+        $cond: [{$gte: [{$size: "$hobbies"}, 3]}, true, false]
+      }
+    }
+  }]
+)
 ```
 
 **Answer**
@@ -437,8 +451,8 @@ db.students.aggregate([
       completedCourses: {
         $size: {
           $filter: {
-            input: "$courses", 
-            as: "course", 
+            input: "$courses",
+            as: "course",
             cond: {$eq: ["$$course.course_status", "Complete"]}
           }
         }
@@ -501,7 +515,7 @@ db.students.aggregate([
 
 **Query**
 ```bash
-db.students.updateMany({}, 
+db.students.updateMany({},
   [{
     $set: {
       completedCourses: {
@@ -534,7 +548,7 @@ db.students.updateMany({},
 ```bash
 db.students.aggregate([{
   $project: {
-    first_name: 1, 
+    first_name: 1,
     classesInProgress: { # count the classes currently in progress
       $size: {
         $filter: {
