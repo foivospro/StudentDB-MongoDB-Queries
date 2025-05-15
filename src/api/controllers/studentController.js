@@ -68,7 +68,7 @@ const getTransformedHobbyists = async (req, res) => {
     let result = await collection.aggregate([{
         $addFields: {
             hobbyist: {
-            $cond: [{$gte: [{$size: "$hobbies"}, 3]}, true, false]
+            $cond: [{$gt: [{$size: "$hobbies"}, 3]}, true, false]
             }
         }
     }]).toArray();

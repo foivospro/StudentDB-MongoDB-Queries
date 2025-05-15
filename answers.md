@@ -380,7 +380,7 @@ db.students.aggregate([
 db.students.aggregate([{
   $addFields: {
     hobbyist: {
-      $cond: [{$gte: [{$size: "$hobbies"}, 3]}, true, false]
+      $cond: [{$gt: [{$size: "$hobbies"}, 3]}, true, false]
     }
   }
 }])
@@ -414,7 +414,7 @@ db.students.aggregate([{
         course_status: 'In Progress'
       }
     ],
-    hobbyist: true
+    hobbyist: false
   },
   # rest of the documents...
 ]
@@ -428,7 +428,7 @@ db.students.updateMany({},
   [{
     $set: {
       hobbyist: {
-        $cond: [{$gte: [{$size: "$hobbies"}, 3]}, true, false]
+        $cond: [{$gt: [{$size: "$hobbies"}, 3]}, true, false]
       }
     }
   }]
