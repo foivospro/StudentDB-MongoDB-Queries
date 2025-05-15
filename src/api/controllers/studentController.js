@@ -50,10 +50,10 @@ const getMost10 = async (req, res) => {
         { $unwind: "$courses" },
         { $match: { "courses.grade": 10 } },
         { $group: {
-            _id: "$first_name",
+            _id: "$_id",
+            first_name: { $first: "$first_name" },
             count_tens: { $sum: 1 }
-            }
-        },
+        }},
         { $sort: { count_tens: -1 } },
         { $limit: 1 }
     ]).toArray();

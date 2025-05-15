@@ -255,7 +255,8 @@ db.students.aggregate([
   { $unwind: "$courses" },
   { $match: { "courses.grade": 10 } },
   { $group: {
-      _id: "$first_name",
+      _id: "$_id",
+      first_name: { $first: "$first_name" },
       count_tens: { $sum: 1 }
     }
   },
@@ -267,7 +268,13 @@ db.students.aggregate([
 **Answer**
 
 ```bash
-[ { _id: 'Kostas', count_tens: 304 } ]
+[
+  {
+    "_id": "681c9468ff3ac55dcc6c4d4a",
+    "first_name": "Vangelis",
+    "count_tens": 6
+  }
+]
 ```
 
 
