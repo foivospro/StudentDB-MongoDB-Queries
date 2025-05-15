@@ -1,4 +1,8 @@
-# MongoDB Project
+# MongoDB Queries
+
+
+* **Note**: Please note that all queries presented in this document are examples only and (some of them) were executed on different datasets; therefore, the results across different queries may be independent of each other and should not be interpreted as connected or part of a sequential analysis.
+
 
 ## 1. Students currently taking at least one class
 
@@ -119,7 +123,7 @@ db.students.aggregate([
 ]
 ```
 
-**Answer without limit**
+**Answer with larger limit**
 
 ```bash
 [
