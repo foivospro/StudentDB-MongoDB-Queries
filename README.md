@@ -35,6 +35,8 @@ All endpoints return the same json format visible in [queries.md](queries.md) so
 
 ## Usage
 
+Provide Mongodb configurations (connection uri, database & collection name) in [`src/api/config/db.js`](src/api/config/db.js) (or parse them through a .env file) and a valid port in [`src/api/app.js`](src/api/app.js).
+
 ```bash
 npm install # install the dependencies
 
