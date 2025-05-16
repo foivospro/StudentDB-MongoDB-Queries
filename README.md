@@ -14,7 +14,7 @@ The following REST endpoints are available for use:
 - `GET students/count-by-city` - Returns the count of users organized by city
 - `GET students/highest-gpa` - Returns the highest scored GPA (along with the respective student)
 - `GET students/most-tens` - Returns the student with the most 10s (along with the number of 10s achieved)
-- `GET students/transormed-hobbyists` - Returns all the students, transformed to include a "hobbyist" boolean field
+- `GET students/transformed-hobbyists` - Returns all the students, transformed to include a "hobbyist" boolean field
 - `GET students/transformed-num-courses` - Returns all the students transformed to include a "completedCourses" count field
 - `GET students/transformed-gpa-inprogress-dropped` - Returns all the students transformed to include "classesInProgress" & "droppedClasses" count fields, as well as a "GPA" field
 

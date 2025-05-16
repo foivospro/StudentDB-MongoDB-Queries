@@ -14,7 +14,7 @@ router.get("/active-count", getActiveCount);
 router.get("/count-by-city", getCountByCity);
 router.get("/highest-gpa", getHighestGPAGrade);
 router.get("/most-tens", getMost10);
-router.get("/transormed-hobbyists", getTransformedHobbyists);
+router.get("/transformed-hobbyists", getTransformedHobbyists);
 router.get("/transformed-num-courses", getTransformedNumCourses);
 router.get("/transformed-gpa-inprogress-dropped", getTransformedGPAInProgressDropped);
 
