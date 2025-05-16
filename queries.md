@@ -60,7 +60,24 @@ db.students.aggregate([
 db.students.aggregate([
   { $unwind: "$hobbies" },
   { $group: { _id: "$hobbies", count: { $sum: 1 } } },
-  { $sort: { count: -1 } }
+  { $sort: { count: -1 } },
+  { $group: {
+      _id: null,
+      maxCount: { $first: "$count" },
+      hobbies: { $push: { name: "$_id", count: "$count" } }
+    }
+  },
+  { $project: {
+      _id: 0,
+      mostPopularHobbies: {
+        $filter: {
+          input: "$hobbies",
+          as: "hobby",
+          cond: { $eq: ["$$hobby.count", "$maxCount"] }
+        }
+      }
+    }
+  }
 ])
 ```
 
@@ -68,26 +85,9 @@ db.students.aggregate([
 
 ```bash
 [
-  { _id: 'watercolour painting', count: 1321 },
-  { _id: 'piano', count: 1293 },
-  { _id: 'gardening', count: 1274 },
-  { _id: 'skydiving', count: 1273 },
-  { _id: 'guitar', count: 1269 },
-  { _id: 'ventriloquism', count: 1264 },
-  { _id: 'poetry', count: 1261 },
-  { _id: 'coin collecting', count: 1258 },
-  { _id: 'snooker', count: 1254 },
-  { _id: 'cinema', count: 1254 },
-  { _id: 'archaeology', count: 1251 },
-  { _id: 'model cars', count: 1248 },
-  { _id: 'World of Warcraft', count: 1244 },
-  { _id: 'swimming', count: 1235 },
-  { _id: 'paintball', count: 1234 },
-  { _id: 'hiking', count: 1233 },
-  { _id: 'skiing', count: 1223 },
-  { _id: 'philately', count: 1215 },
-  { _id: 'AD&D', count: 1195 },
-  { _id: 'board games', count: 1163 }
+  {
+    mostPopularHobbies: [ { name: 'watercolour painting', count: 1321 } ]
+  }
 ]
 ```
 ##  4. GPA of the best student
