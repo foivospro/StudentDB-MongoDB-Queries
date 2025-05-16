@@ -55,6 +55,8 @@ db.students.aggregate([
 ```
 ## 3. Most popular hobby or hobbies
 
+* Will return a lot of results if many hobbies are at the first place
+
 **Query**
 ```bash
 db.students.aggregate([
